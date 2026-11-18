@@ -61,4 +61,37 @@ rem Homepage: https://crates.io/crates/rand_distr
 call "%~dp0rust_install_helper.bat" library rand_distr
 if errorlevel 1 set "FAILED=1"
 
+rem Native dependency note: cargo add only updates Cargo.toml; GSL and BLAS binaries must be installed separately.
+rem Choose ONE BLAS backend at build time; do not activate conflicting blas-src features.
+
+rem GSL: GNU Scientific Library Rust bindings (rgsl); requires native GSL >=2 installed and linked on Windows.
+rem Homepage: https://crates.io/crates/GSL
+call "%~dp0rust_install_helper.bat" library GSL
+if errorlevel 1 set "FAILED=1"
+
+rem blas: Safe Rust interface to BLAS routines; requires a BLAS implementation for linking.
+rem Homepage: https://crates.io/crates/blas
+call "%~dp0rust_install_helper.bat" library blas
+if errorlevel 1 set "FAILED=1"
+
+rem cblas: CBLAS interface for matrix and vector operations; requires native BLAS backend.
+rem Homepage: https://crates.io/crates/cblas
+call "%~dp0rust_install_helper.bat" library cblas
+if errorlevel 1 set "FAILED=1"
+
+rem lapack: Rust bindings for LAPACK linear algebra routines; requires LAPACK backend.
+rem Homepage: https://crates.io/crates/lapack
+call "%~dp0rust_install_helper.bat" library lapack
+if errorlevel 1 set "FAILED=1"
+
+rem blas-src: Select a BLAS backend using Cargo features; configure exactly one implementation.
+rem Homepage: https://crates.io/crates/blas-src
+call "%~dp0rust_install_helper.bat" library blas-src
+if errorlevel 1 set "FAILED=1"
+
+rem openblas-src: OpenBLAS BLAS/LAPACK provider; on Windows requires preinstalled OpenBLAS via vcpkg and system feature.
+rem Homepage: https://crates.io/crates/openblas-src
+call "%~dp0rust_install_helper.bat" library openblas-src
+if errorlevel 1 set "FAILED=1"
+
 endlocal & exit /b %FAILED%

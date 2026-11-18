@@ -48,4 +48,31 @@ $failures += Invoke-RustCategory -Name '02-numerical' -Crates @('rand') -IsCli $
 # Homepage: https://crates.io/crates/rand_distr
 $failures += Invoke-RustCategory -Name '02-numerical' -Crates @('rand_distr') -IsCli $false -ProjectPath $ProjectPath -DryRun:$DryRun -Upgrade:$Upgrade -IncludeOptional:$IncludeOptional
 
+# Native dependency note: cargo add only updates Cargo.toml; install native GSL/BLAS libraries separately.
+# Choose ONE BLAS backend at build time; do not activate conflicting blas-src features.
+
+# GSL: GNU Scientific Library Rust bindings (rgsl); requires native GSL >=2 installed and linked on Windows.
+# Homepage: https://crates.io/crates/GSL
+$failures += Invoke-RustCategory -Name '02-numerical' -Crates @('GSL') -IsCli $false -ProjectPath $ProjectPath -DryRun:$DryRun -Upgrade:$Upgrade -IncludeOptional:$IncludeOptional
+
+# blas: Safe Rust interface to BLAS routines; requires a BLAS implementation for linking.
+# Homepage: https://crates.io/crates/blas
+$failures += Invoke-RustCategory -Name '02-numerical' -Crates @('blas') -IsCli $false -ProjectPath $ProjectPath -DryRun:$DryRun -Upgrade:$Upgrade -IncludeOptional:$IncludeOptional
+
+# cblas: CBLAS interface for matrix and vector operations; requires native BLAS backend.
+# Homepage: https://crates.io/crates/cblas
+$failures += Invoke-RustCategory -Name '02-numerical' -Crates @('cblas') -IsCli $false -ProjectPath $ProjectPath -DryRun:$DryRun -Upgrade:$Upgrade -IncludeOptional:$IncludeOptional
+
+# lapack: Rust bindings for LAPACK linear algebra routines; requires LAPACK backend.
+# Homepage: https://crates.io/crates/lapack
+$failures += Invoke-RustCategory -Name '02-numerical' -Crates @('lapack') -IsCli $false -ProjectPath $ProjectPath -DryRun:$DryRun -Upgrade:$Upgrade -IncludeOptional:$IncludeOptional
+
+# blas-src: Select a BLAS backend using Cargo features; configure exactly one implementation.
+# Homepage: https://crates.io/crates/blas-src
+$failures += Invoke-RustCategory -Name '02-numerical' -Crates @('blas-src') -IsCli $false -ProjectPath $ProjectPath -DryRun:$DryRun -Upgrade:$Upgrade -IncludeOptional:$IncludeOptional
+
+# openblas-src: OpenBLAS BLAS/LAPACK provider; on Windows requires preinstalled OpenBLAS via vcpkg and system feature.
+# Homepage: https://crates.io/crates/openblas-src
+$failures += Invoke-RustCategory -Name '02-numerical' -Crates @('openblas-src') -IsCli $false -ProjectPath $ProjectPath -DryRun:$DryRun -Upgrade:$Upgrade -IncludeOptional:$IncludeOptional
+
 if ($failures -gt 0) { exit 1 }

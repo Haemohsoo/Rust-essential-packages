@@ -29,3 +29,6 @@ Updated: each crate now has its own call/invocation and two comments:
 - Homepage (crates.io package page)
 Errors for one crate do not prevent attempting the next crate.
 The all-category runners call each category; optional crates remain skipped by default.
+
+Numerical additions: GSL, blas, cblas, lapack, blas-src, openblas-src.
+Native GSL and BLAS libraries are not installed by cargo add. For Windows OpenBLAS see https://docs.rs/openblas-src/latest/openblas_src/ and use vcpkg + system feature.
